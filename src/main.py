@@ -16,8 +16,31 @@ def main():
     )
     win.draw_line(line1, "red")
     win.draw_line(line2)
-    cell1 = Cell(200, 300, 200, 300, win)
-    cell1.draw()
+
+    cells = [
+        Cell(200, 210, 200, 210, win),
+        Cell(200, 210, 210, 220, win),
+        Cell(200, 210, 220, 230, win),
+        Cell(200, 210, 230, 240, win),
+        Cell(210, 220, 220, 230, win),
+    ]
+    for i in range(3):
+        cells[i].bottom_wall = False
+
+    for i in range(1, 4):
+        cells[i].top_wall = False
+
+    cells[2].right_wall = False
+    cells[4].left_wall = False
+
+    for cell in cells:
+        cell.draw()
+
+    cells[0].draw_move(cells[1])
+    cells[1].draw_move(cells[2])
+    cells[2].draw_move(cells[4])
+    cells[2].draw_move(cells[3], True)
+
     win.wait_for_close()
 
 
