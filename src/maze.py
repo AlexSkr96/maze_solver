@@ -47,6 +47,7 @@ class Maze:
 
         self._break_entrance_and_exit()
         self._break_cells(0, 0)
+        self._reset_cells_visited()
 
 
     def _draw_cell(self, i, j):
@@ -109,3 +110,9 @@ class Maze:
                 self._draw_cell(i, j)
                 self._draw_cell(ind[0], ind[1])
                 self._break_cells(ind[0], ind[1])
+
+
+    def _reset_cells_visited(self):
+        for row in self._cells:
+            for cell in row:
+                cell.visited = False
