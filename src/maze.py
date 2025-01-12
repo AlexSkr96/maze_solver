@@ -23,7 +23,7 @@ class Maze:
         self._cell_size_x = cell_size_x
         self._cell_size_y = cell_size_y
         self._win = win
-        self._seed = seed if seed else random.seed()
+        random.seed(seed)
 
         self._create_cells()
 
@@ -46,7 +46,7 @@ class Maze:
                 self._draw_cell(i, j)
 
         self._break_entrance_and_exit()
-        # self._break_cells(0, 0)
+        self._break_cells(0, 0)
 
 
     def _draw_cell(self, i, j):
@@ -76,7 +76,6 @@ class Maze:
 
 
     def _break_cells(self, i, j):
-        # print(f"{i}, {j}")
         self._cells[i][j].visited = True
         while True:
             possible_directions = []
@@ -106,7 +105,6 @@ class Maze:
                 elif ind[1] < j:
                     current_cell.left_wall = False
                     target_cell.right_wall = False
-
 
                 self._draw_cell(i, j)
                 self._draw_cell(ind[0], ind[1])
