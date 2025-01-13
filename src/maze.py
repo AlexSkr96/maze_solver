@@ -64,6 +64,7 @@ class Maze:
 
     def _animate(self):
         if self._win is None:
+            print("self._win is None")
             return
         self._win.redraw()
         time.sleep(0.05)
@@ -116,3 +117,36 @@ class Maze:
         for row in self._cells:
             for cell in row:
                 cell.visited = False
+
+
+    def solve(self):
+        return self._solve_r(0, 0)
+
+
+    def _solve_r(self, i, j):
+        self._animate()
+        current_cell = self._cells[i][j]
+        end_cell = self._cells[-1][-1]
+        possible_directions = []
+
+        current_cell.visited = True
+        if current_cell == end_cell:
+            return True
+
+        if i in range(self._num_rows-1)     and not current_cell.bottom_wall    and not self._cells[i+1][j].visited:
+            possible_directions.append((i+1, j))
+        if j in range(self._num_cols-1)     and not current_cell.right_wall     and not self._cells[i][j+1].visited:
+            possible_directions.append((i, j+1))
+        if i in range(1, self._num_rows)    and not current_cell.top_wall       and not self._cells[i-1][j].visited:
+            possible_directions.append((i-1, j))
+        if j in range(1, self._num_cols)    and not current_cell.left_wall      and not self._cells[i][j-1].visited:
+            possible_directions.append((i, j-1))
+
+        for dir in possible_directions:
+            dir_cell = self._cells[dir[0]][dir[1]]
+            current_cell.draw_move(dir_cell)
+            if self._solve_r(dir[0], dir[1]):
+                return True
+            else:
+                current_cell.draw_move(dir_cell, undo=True)
+        return False
